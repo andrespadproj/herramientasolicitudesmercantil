@@ -1,0 +1,52 @@
+//pagina Consulta
+
+//en campo OnVisible
+UpdateContext({ Local_Correo_Usuario: First(GlobalVars).Correo, LocalUserCarnet: First(GlobalVars).UserCarnet,
+LocalNombreSeguridad: First(GlobalVars).Nombre_Seguridad,
+Local_Correo_Supervisor:First(GlobalVars).Correo_Supervisor});
+
+
+//en boton '+' para crear solicitud
+NewForm(EditForm1);Navigate('Nueva Solicitud', ScreenTransition.Cover)
+
+
+//ShowPendiente, ShowAceptada, ShowRechazada y SortAlphabetical son establecidas en los toggles respectivos.
+  //Ejemplo para ShowPendiente:
+  //En campo OnCheck:
+    UpdateContext({ ShowPendiente: true })
+  //En campo OnUncheck:
+    UpdateContext({ ShowPendiente: false })
+
+
+//en panel de solicitudes (gallery)
+
+SortByColumns(
+    Filter(
+        'Herramienta de Solicitudes Lista',
+        (
+            (
+                (Carnet_Solicitante = LocalUserCarnet || Correo_Supervisor = Local_Correo_Usuario || Nombre_Ejecutor_Seguridad = LocalNombreSeguridad)
+                &&
+                (
+                    (ShowPendiente && Status_Solicitud.Value = "Pendiente")
+                    ||
+                    (ShowAceptada && Status_Solicitud.Value = "Aceptada")
+                    ||
+                    (ShowRechazada && Status_Solicitud.Value = "Rechazada")
+                    ||
+                    (!ShowPendiente && !ShowAceptada && !ShowRechazada)
+                )
+            )
+            &&
+            (
+                TextSearchSolicitudNum.Text = "" ||
+                StartsWith(ID, TextSearchSolicitudNum.Text) ||
+                StartsWith(Título, TextSearchSolicitudNum.Text) ||
+                StartsWith(Status_Solicitud.Value, TextSearchSolicitudNum.Text)
+            )
+        )
+    ),
+    If(SortAlphabetical, "Title", "ID"),
+    If(SortDescending1, SortOrder.Descending, SortOrder.Ascending)
+)
+
