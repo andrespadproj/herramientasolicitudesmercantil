@@ -1,0 +1,19 @@
+//pagina de Solicitud Enviada
+
+//en campo OnVisible
+UpdateContext({
+    LocalRol: First(GlobalVars).Rol})
+
+
+//Icono de editar (lapiz):
+  //Campo OnSelect
+  EditForm(EditForm1_1);Navigate('Editar Solicitud', ScreenTransition.None)
+  //Campo Visible
+  If(LocalRol.Value = "Gerente" || LocalRol.Value = "Coordinador", true, false)
+
+
+//Icono de borrar (basura):
+  //Campo OnSelect
+  Remove([@'Herramienta de Solicitudes Lista'], BrowseGallery1.Selected); If (IsEmpty(Errors([@'Herramienta de Solicitudes Lista'], BrowseGallery1.Selected)), Back())
+  //Campo Visible
+  If(LocalRol.Value = "Gerente" || LocalRol.Value = "Coordinador", true, false)
