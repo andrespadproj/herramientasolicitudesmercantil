@@ -1,0 +1,87 @@
+//https://apps.powerapps.com/play/e/default-0a4d4c81-3291-4ca2-bb8b-b84fe254f1a8/a/30ae327d-4682-4b85-920e-a6a4d653b8cf?tenantId=0a4d4c81-3291-4ca2-bb8b-b84fe254f1a8&sourcetime=2023-08-11%2012%3A15%3A20Z&source=portal#
+//pagina de inicio de sesion
+//codigo en boton 'Ingresar'
+//en propiedad OnSelect
+
+If(
+    !IsBlank(
+        LookUp(
+            'Usuarios de Herramienta de Solicitudes',
+            Correo_Usuario = EmailInputBox.Text && Contraseña = ClaveInputBox.Text
+        )
+    ),
+    ClearCollect(
+        GlobalVars,
+        {
+            EnteredEmail: EmailInputBox.Text,
+            Título: LookUp(
+                'Usuarios de Herramienta de Solicitudes',
+                Correo_Usuario = EmailInputBox.Text,
+                Título
+            ),
+            Carnet_Usuario: LookUp(
+                'Usuarios de Herramienta de Solicitudes',
+                Correo_Usuario = EmailInputBox.Text,
+                Carnet_Usuario
+            ),
+            Correo: LookUp(
+                'Usuarios de Herramienta de Solicitudes',
+                Correo_Usuario = EmailInputBox.Text,
+                Correo_Usuario
+            ),
+            Rol: LookUp(
+                'Usuarios de Herramienta de Solicitudes',
+                Correo_Usuario = EmailInputBox.Text,
+                Rol_Usuario
+            ),
+            Codigo_Unidad_Usuario: LookUp(
+                'Usuarios de Herramienta de Solicitudes',
+                Correo_Usuario = EmailInputBox.Text,
+                Unidad_Usuario
+            ),
+            Correo_Supervisor: LookUp(
+                'Usuarios de Herramienta de Solicitudes',
+                Correo_Usuario = EmailInputBox.Text,
+                Correo_Aprobador
+            ),
+            Carnet_Supervisor: LookUp(
+                'Usuarios de Herramienta de Solicitudes',
+                Correo_Usuario = EmailInputBox.Text,
+                Carnet_Aprobador
+            ),
+            UserCarnet: LookUp(
+                'Usuarios de Herramienta de Solicitudes',
+                Correo_Usuario = EmailInputBox.Text,
+                Carnet_Usuario
+            ),
+            Nombre_Aprobador: LookUp(
+                'Usuarios de Herramienta de Solicitudes',
+                Correo_Usuario = EmailInputBox.Text,
+                Nombre_Aprobador
+            ),
+            Nombre_Seguridad: LookUp(
+                'Usuarios de Herramienta de Solicitudes',
+                Correo_Usuario = EmailInputBox.Text,
+                Nombre_Seguridad
+            ),
+            Carnet_Seguridad: LookUp(
+                'Usuarios de Herramienta de Solicitudes',
+                Correo_Usuario = EmailInputBox.Text,
+                Carnet_Seguridad
+            ),
+            Unidad_Seguridad: LookUp(
+                'Usuarios de Herramienta de Solicitudes',
+                Correo_Usuario = EmailInputBox.Text,
+                Unidad_Seguridad
+            ),
+            Unidad_Aprobador: LookUp(
+                'Usuarios de Herramienta de Solicitudes',
+                Correo_Usuario = EmailInputBox.Text,
+                Unidad_Aprobador
+            )
+        }
+    );
+    Reset(EmailInputBox);  
+    Reset(ClaveInputBox);  
+    Navigate(Consulta, ScreenTransition.None)
+)
